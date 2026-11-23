@@ -429,9 +429,9 @@ Desde el Lakehouse, en el desplegable de arriba a la derecha se cambia a *Punto 
 análisis SQL*. Ahí se abre una *Nueva consulta SQL* y se ejecutan las consultas del fichero
 `fabric/sql/preguntas_negocio.sql`.
 
-**[Figuras 10 a 13. Resultado de las consultas P1 a P4]**
-
 #### P1. Géneros
+
+<div class="fig"><img src="docs/img/fig_sql_p1.png" alt=""><p class="pie">Figura 10. Consulta P1 en el punto de conexión SQL</p></div>
 
 | Género | Juegos | Tasa de éxito | Cuota lanzamientos 2023-25 | Índice | Experiencia equipo | Prioridad |
 |---|---|---|---|---|---|---|
@@ -458,6 +458,8 @@ bastante saturada.
 
 #### P2. Precio
 
+<div class="fig"><img src="docs/img/fig_sql_p2.png" alt=""><p class="pie">Figura 11. Consulta P2</p></div>
+
 | Rango de precio | Juegos | Tasa de éxito | % reseñas positivas |
 |---|---|---|---|
 | Gratis | 25.727 | 5,7 % | 75,3 % |
@@ -474,6 +476,8 @@ el que plantea el estudio, un precio de entre 15 y 25 dólares parece lo más ra
 
 #### P3. Plataformas
 
+<div class="fig"><img src="docs/img/fig_sql_p3.png" alt=""><p class="pie">Figura 12. Consulta P3</p></div>
+
 | Plataformas | Juegos | Tasa de éxito | % reseñas positivas |
 |---|---|---|---|
 | Una | 98.029 | 5,8 % | 76,1 % |
@@ -486,6 +490,8 @@ estudios con más recursos sean los que hacen las versiones para Mac y Linux. Au
 a favor de incluir el port en el presupuesto.
 
 #### P4. Saturación y mes de lanzamiento
+
+<div class="fig"><img src="docs/img/fig_sql_p4.png" alt=""><p class="pie">Figura 13. Consulta P4, lanzamientos por año y tasa de éxito por mes</p></div>
 
 El número de lanzamientos no ha parado de crecer: 7.060 en 2019, 10.910 en 2021, 14.423 en 2023,
 19.825 en 2024 y 24.699 en 2025.
