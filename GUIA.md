@@ -376,7 +376,7 @@ El notebook crea tres tablas:
 
 <div class="fig"><img src="docs/img/fig06_notebook.png" alt=""><p class="pie">Figura 6. Celda del notebook que crea gold_juego_genero (333.077 filas) y número de juegos por género</p></div>
 
-**[Figura 7. Tabla gold_calidad_datos]**
+<div class="fig"><img src="docs/img/fig07_notebook_resumen.png" alt=""><p class="pie">Figura 7. Celda del notebook que crea gold_resumen_genero, ordenada por índice de oportunidad</p></div>
 
 Resultado esperado: `gold_resumen_genero` con 12 géneros (solo los que tienen al menos 500 juegos) y
 `gold_calidad_datos` con estos valores:
