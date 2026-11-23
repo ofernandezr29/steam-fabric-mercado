@@ -1,72 +1,86 @@
-# Entregable 2 · Datasets
+# Descripción de los datasets
 
-Proyecto de Cloud Computing (curso 2026-2027) · Inteligencia de mercado en Steam con Microsoft Fabric
+**Análisis del mercado de videojuegos en Steam con Microsoft Fabric.** Curso 2026-2027
 
-Repositorio: https://github.com/ofernandezr29/steam-fabric-mercado
+Autores: _Nombre 1_ y _Nombre 2_
 
-## 1. Ficheros, variables y calidad de datos
+## 1. Ficheros y variables
 
-### 1.1 Fuentes
+### 1.1 Origen de los datos
 
-| Fichero | Origen | Tipo | Filas | Descripción |
-|---|---|---|---|---|
-| `data/steam_games.csv` | *Steam Games Dataset* (Kaggle, recopilado de la API de Steam y SteamSpy) | Público + problemas de calidad inyectados | 127.742 | Una fila por app de Steam |
-| `data/estrategia_generos.csv` | Generado por el equipo (`scripts/01_preparar_dataset.py`) | Sintético | 12 | Datos internos de Nébula Games por género |
-| `data/registro_problemas_inyectados.csv` | Generado por el script | Trazabilidad | 20.257 | Qué valor se alteró, en qué columna y de qué tipo |
+Hemos usado tres ficheros:
 
-El dataset original (`games.csv`, 400 MB) incluye descripciones, URLs de capturas y vídeos que no
-aportan al caso de uso. El script `01_preparar_dataset.py` selecciona 24 columnas (≈ 29 MB).
+| Fichero | Origen | Filas | Contenido |
+|---|---|---|---|
+| `steam_games.csv` | Steam Games Dataset (Kaggle), obtenido de la API de Steam y de SteamSpy | 127.742 | Una fila por aplicación de Steam |
+| `estrategia_generos.csv` | Sintético, generado por nosotros | 12 | Datos internos del estudio por género |
+| `registro_problemas_inyectados.csv` | Generado por el script de preparación | 20.257 | Qué valores hemos alterado y en qué columna |
 
-### 1.2 Variables principales de `steam_games.csv`
+El fichero original de Kaggle (`games.csv`) ocupa unos 400 MB porque incluye las descripciones de
+los juegos, enlaces a capturas y vídeos, etc. Como no lo necesitábamos y además GitHub no admite
+ficheros de más de 100 MB, preparamos un script en Python (`01_preparar_dataset.py`) que se queda
+con 24 columnas. El resultado ocupa unos 29 MB.
+
+Al abrir el fichero original nos encontramos con que la cabecera tiene 39 nombres de columna pero
+cada fila tiene 40 valores: las columnas `Discount` y `DLC count` aparecen juntas como
+`DiscountDLC count`. Lo corregimos en el mismo script antes de hacer nada más.
+
+### 1.2 Variables principales de steam_games.csv
 
 | Columna | Tipo | Descripción |
 |---|---|---|
-| `AppID` | entero | Identificador de Steam (clave) |
-| `Name` | texto | Nombre del juego |
-| `Release date` | texto | Fecha de lanzamiento (`Aug 1, 2023`) |
-| `Estimated owners` | texto | Rango de propietarios estimado (`20000 - 50000`) |
-| `Price` | decimal | Precio en USD |
-| `Windows`, `Mac`, `Linux` | booleano | Plataformas soportadas |
-| `Positive`, `Negative` | entero | Número de reseñas positivas / negativas |
-| `Metacritic score`, `User score` | entero | Puntuaciones (0 = sin puntuación) |
-| `Average/Median playtime forever` | entero | Minutos jugados |
-| `Developers`, `Publishers` | texto | Desarrolladora y editora |
-| `Genres` | texto | Lista de géneros separados por comas |
-| `Supported languages` | texto | Lista de idiomas (`['English', 'French']`) |
+| AppID | entero | Identificador del juego en Steam |
+| Name | texto | Nombre |
+| Release date | texto | Fecha de lanzamiento, con formato `Aug 1, 2023` |
+| Estimated owners | texto | Rango estimado de propietarios, por ejemplo `20000 - 50000` |
+| Price | decimal | Precio en dólares |
+| Windows, Mac, Linux | booleano | Plataformas en las que está disponible |
+| Positive, Negative | entero | Número de reseñas positivas y negativas |
+| Metacritic score, User score | entero | Puntuaciones (un 0 significa que no tiene) |
+| Average / Median playtime forever | entero | Minutos de juego medios y medianos |
+| Developers, Publishers | texto | Desarrolladora y editora |
+| Genres | texto | Lista de géneros separados por comas |
+| Supported languages | texto | Lista de idiomas, por ejemplo `['English', 'French']` |
 
-### 1.3 Variables de `estrategia_generos.csv` (sintético)
+### 1.3 Datos internos (estrategia_generos.csv)
+
+Este fichero simula la información que tendría el propio estudio. Los valores los hemos fijado
+nosotros pensando en un estudio pequeño:
 
 | Columna | Descripción |
 |---|---|
-| `genero` | Género de Steam (clave de cruce) |
-| `coste_desarrollo_eur` | Coste medio estimado de desarrollo para el estudio |
-| `meses_desarrollo` | Duración estimada del desarrollo |
-| `experiencia_equipo` | Experiencia del equipo en el género (1 = ninguna, 5 = experto) |
-| `prioridad_estrategica` | Prioridad fijada por dirección (Alta / Media / Baja) |
+| genero | Género de Steam, sirve para cruzarlo con el catálogo |
+| coste_desarrollo_eur | Coste aproximado de desarrollar un juego de ese género |
+| meses_desarrollo | Tiempo de desarrollo estimado |
+| experiencia_equipo | Experiencia del equipo en ese género, de 1 (ninguna) a 5 |
+| prioridad_estrategica | Prioridad que le da la dirección: Alta, Media o Baja |
 
-### 1.4 Problemas de calidad de datos
+### 1.4 Problemas de calidad
 
-Además de los defectos **reales** del dataset, el script inyecta problemas de forma reproducible
-(semilla 2627) para demostrar su tratamiento:
+El enunciado pide que los datos tengan problemas de calidad para demostrar cómo se tratan. El
+dataset ya traía algunos de origen, y otros los añadimos con el script de preparación usando una
+semilla fija (2627) para que el resultado sea siempre el mismo. Todo lo que se modifica queda
+apuntado en `registro_problemas_inyectados.csv`.
 
-| Problema | Real / inyectado | Filas afectadas | Tratamiento (paso del Dataflow) |
+| Problema | Origen | Filas | Cómo se trata en el Dataflow |
 |---|---|---|---|
-| Cabecera con dos columnas fusionadas (`DiscountDLC count`) | Real | todo el fichero | Corregido en el script de preparación |
-| Registros duplicados | Inyectado (1,5 %) | 1.887 | Quitar duplicados por `app_id` (paso 6) |
-| `Name` nulo | Inyectado | 255 | Eliminar fila (paso 4) |
-| `Price` nulo | Inyectado (1 %) | 1.286 | Marcar `estado_precio = "Nulo"` (paso 11) |
-| `Price` negativo o > 1000 $ | Inyectado | 380 | Marcar "Fuera de rango" y dejar nulo (paso 11) |
-| Fechas en formato ISO `2023-08-01` | Inyectado (3 %) | 3.837 | Parseo con varios formatos (paso 7) |
-| Fechas posteriores a 2026 | Inyectado | 126 | Filtrar (paso 8) |
-| Booleanos `TRUE/true/1/yes/Y` | Inyectado (5 %) | 12.469 | Normalizar a lógico (paso 12) |
-| Espacios sobrantes en editores | Inyectado (2 %) | — | `Text.Trim` (paso 3) |
-| Puntuaciones `0` que significan "sin dato" | Real | mayoría | Sustituir por nulo (paso 13) |
-| Rango de propietarios como texto | Real | todas | Separar en mín./máx./medio (paso 14) |
-| `Genres` nulo | Real | ≈ 8.400 | "Sin género" (paso 9) |
-| Software que no es juego (Utilities, Video Production…) | Real | ≈ 1.500 | Filtrar (paso 10) |
-| `" casual "` en el fichero interno | Inyectado | 1 | Trim + mayúsculas (consulta `estrategia_generos`) |
+| Registros duplicados | Añadido (1,5 %) | 1.887 | Se quitan duplicados por `app_id` (paso 6) |
+| Nombre vacío | Añadido | 255 | Se elimina la fila (paso 4) |
+| Precio vacío | Añadido (1 %) | 1.286 | Se marca como "Nulo" en `estado_precio` (paso 11) |
+| Precio negativo o mayor de 1000 $ | Añadido | 380 | Se marca como "Fuera de rango" y no se usa en medias (paso 11) |
+| Fechas en formato `2023-08-01` | Añadido (3 %) | 3.837 | Se prueban varios formatos de fecha (paso 7) |
+| Fechas posteriores a 2026 | Añadido | 126 | Se filtran (paso 8) |
+| Booleanos escritos como `TRUE`, `1`, `yes`, `Y`... | Añadido (5 %) | 12.469 | Se normalizan a verdadero/falso (paso 12) |
+| Espacios de más en desarrolladora y editora | Añadido (2 %) | | `Text.Trim` (paso 3) |
+| Puntuaciones a 0 que en realidad son "sin dato" | Original | | Se cambian por nulo (paso 13) |
+| Propietarios como rango de texto | Original | Todas | Se separa en mínimo, máximo y valor medio (paso 14) |
+| Géneros vacíos | Original | unas 8.400 | Se ponen como "Sin género" (paso 9) |
+| Programas que no son juegos (Utilities, Video Production...) | Original | unas 1.500 | Se filtran (paso 10) |
+| `" casual "` con espacios y en minúscula en el fichero interno | Añadido | 1 | Se limpia en la consulta `estrategia_generos` |
 
-### 1.5 Modelo de datos resultante
+### 1.5 Modelo de datos
+
+Después de la limpieza y del notebook, las tablas quedan relacionadas así:
 
 ```mermaid
 erDiagram
@@ -99,26 +113,30 @@ erDiagram
     }
 ```
 
-**Definiciones clave**
-- **Éxito comercial:** `propietarios_min ≥ 100.000` (el juego está como mínimo en el rango 100k–200k).
-- **% reseñas positivas:** `positivas / (positivas + negativas)`, solo si hay ≥ 10 reseñas.
-- **Índice de oportunidad (por género):** `tasa de éxito / cuota de lanzamientos 2023-2025`.
-  Un valor alto indica mucho éxito con relativamente poca competencia reciente.
+Para los análisis hemos usado estas definiciones:
 
-## 2. Procedimiento de generación
+- **Éxito comercial:** que el juego tenga como mínimo 100.000 propietarios estimados, es decir, que
+  esté en el rango 100.000-200.000 o en uno superior.
+- **Porcentaje de reseñas positivas:** positivas / (positivas + negativas). Solo lo calculamos si el
+  juego tiene al menos 10 reseñas, porque con menos el porcentaje no dice mucho.
+- **Índice de oportunidad de un género:** tasa de éxito del género dividida entre su cuota de
+  lanzamientos en 2023-2025. Si sale alto, el género tiene bastante éxito en proporción a la
+  competencia que hay ahora mismo.
 
-Los datos sintéticos y los problemas de calidad se generan con `01_preparar_dataset.py`
-(incluido en esta carpeta). El proceso es reproducible gracias a una semilla fija (2627):
+## 2. Cómo se generan los datos
 
-1. Descargar el *Steam Games Dataset* de Kaggle y descomprimir `games.csv`.
-2. Instalar dependencias: `pip install pandas numpy`.
+Los tres ficheros se generan con el script `01_preparar_dataset.py`, que está en esta misma carpeta.
+Como usa una semilla fija (2627), al ejecutarlo de nuevo se obtienen exactamente los mismos ficheros.
+
+1. Descargar el Steam Games Dataset de Kaggle y descomprimir `games.csv`.
+2. Instalar las librerías necesarias: `pip install pandas numpy`.
 3. Ejecutar `python 01_preparar_dataset.py games.csv data`.
 
-El script:
+El script hace lo siguiente:
 
-1. Corrige la cabecera original, que fusiona las columnas `Discount` y `DLC count` (39 nombres para 40 campos).
-2. Selecciona las 24 columnas relevantes (de 400 MB a 28,7 MB).
-3. Inyecta los problemas de calidad descritos en el apartado 1.4 y los registra en `registro_problemas_inyectados.csv`
-   (columnas: `AppID`, `tipo`, `columna`, `valor_original`, `valor_inyectado`).
-4. Genera `estrategia_generos.csv` con los datos internos sintéticos del estudio. Los valores de coste, duración,
-   experiencia y prioridad son supuestos del equipo para un estudio independiente de 15 personas.
+1. Corrige la cabecera del fichero original, en la que `Discount` y `DLC count` aparecen juntas.
+2. Se queda con las 24 columnas que usamos.
+3. Añade los problemas de calidad del apartado 1.4 y los guarda en `registro_problemas_inyectados.csv`,
+   con las columnas `AppID`, `tipo`, `columna`, `valor_original` y `valor_inyectado`.
+4. Crea `estrategia_generos.csv` con los datos internos del estudio. Los costes, plazos, experiencia
+   y prioridades los hemos decidido nosotros pensando en un estudio independiente de unas 15 personas.

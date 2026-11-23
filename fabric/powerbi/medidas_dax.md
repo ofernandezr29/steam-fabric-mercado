@@ -1,16 +1,15 @@
-# Medidas DAX del modelo semántico `SM_Steam_Mercado`
+# Medidas DAX del modelo SM_Steam_Mercado
 
-Crea primero una tabla vacía para agrupar las medidas: en el modelo semántico,
-**Inicio > Nueva medida** sobre la tabla `silver_juegos` (o crea una tabla `_Medidas`).
-Copia cada bloque como una medida nueva y asígnale el formato indicado.
+Las medidas se crean desde el modelo semántico con *Nueva medida*, sobre la tabla `silver_juegos`.
+Debajo de cada una indicamos el formato que le hemos dado.
 
-## KPIs (tarjetas)
+## Medidas de las tarjetas (KPI)
 
 ```dax
 Juegos analizados =
 COUNTROWS ( silver_juegos )
 ```
-Formato: número entero, separador de miles.
+Formato: número entero con separador de miles.
 
 ```dax
 Tasa de éxito =
@@ -19,27 +18,28 @@ DIVIDE (
     [Juegos analizados]
 )
 ```
-Formato: porcentaje, 1 decimal. *Éxito = ≥ 100.000 propietarios estimados.*
+Formato: porcentaje con un decimal. Consideramos éxito tener al menos 100.000 propietarios estimados.
 
 ```dax
 % reseñas positivas =
 AVERAGE ( silver_juegos[pct_positivas] )
 ```
-Formato: porcentaje, 1 decimal. (Solo cuenta juegos con ≥ 10 reseñas; el resto es nulo.)
+Formato: porcentaje con un decimal. Solo cuentan los juegos con 10 reseñas o más, porque en el resto
+la columna está vacía.
 
 ```dax
 Precio medio (de pago) =
 CALCULATE ( AVERAGE ( silver_juegos[precio_usd] ), silver_juegos[precio_usd] > 0 )
 ```
-Formato: moneda $ (USD), 2 decimales.
+Formato: moneda en dólares con dos decimales.
 
 ```dax
 Propietarios estimados =
 SUM ( silver_juegos[propietarios_medio] )
 ```
-Formato: número decimal, unidades abreviadas (M).
+Formato: decimal, mostrado en millones.
 
-## Medidas auxiliares para los gráficos
+## Otras medidas usadas en los gráficos
 
 ```dax
 Lanzamientos recientes (2023-2025) =
@@ -60,12 +60,13 @@ Juegos con éxito =
 CALCULATE ( [Juegos analizados], silver_juegos[exito_comercial] = TRUE () )
 ```
 
-## Relaciones del modelo
+## Relaciones
 
-| Desde (muchos)              | Hacia (uno)                    | Cardinalidad | Dirección de filtro |
-|-----------------------------|--------------------------------|--------------|---------------------|
-| `gold_juego_genero[app_id]` | `silver_juegos[app_id]`        | *:1          | **Ambas**           |
-| `gold_juego_genero[genero]` | `gold_resumen_genero[genero]`  | *:1          | Única               |
+| Desde | Hacia | Cardinalidad | Filtro |
+|---|---|---|---|
+| gold_juego_genero[app_id] | silver_juegos[app_id] | Varios a uno | Ambas direcciones |
+| gold_juego_genero[genero] | gold_resumen_genero[genero] | Varios a uno | Una dirección |
 
-Con esto, una segmentación por `gold_resumen_genero[genero]` filtra `gold_juego_genero`
-y, gracias a la dirección "Ambas", también `silver_juegos` (todas las medidas responden al género).
+Con la primera relación en ambas direcciones, al elegir un género en la segmentación de
+`gold_resumen_genero` se filtra la tabla puente y, a través de ella, también `silver_juegos`. Así
+todas las medidas cambian según el género elegido.
