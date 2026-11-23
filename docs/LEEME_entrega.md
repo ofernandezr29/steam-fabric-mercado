@@ -2,7 +2,7 @@
 
 **Análisis del mercado de videojuegos en Steam con Microsoft Fabric.** Curso 2026-2027
 
-Autores: _Nombre 1_ y _Nombre 2_
+Autores: Marc Pich y Odei Fernández
 
 Repositorio: https://github.com/ofernandezr29/steam-fabric-mercado
 

@@ -2,7 +2,7 @@
 
 **Proyecto de Cloud Computing. Curso 2026-2027**
 
-Autores: _Nombre 1_ y _Nombre 2_
+Autores: Marc Pich y Odei Fernández
 
 Repositorio con los datos y el código: https://github.com/ofernandezr29/steam-fabric-mercado
 
