@@ -310,7 +310,7 @@ crear primero el pipeline del apartado 4.5 solo con las dos copias y ejecutarlo.
 
 **[Figura 3. Editor avanzado con el código M]**
 
-**[Figura 4. Pasos aplicados de la consulta silver_juegos]**
+<div class="fig"><img src="docs/img/fig04_pasos_dataflow.png" alt=""><p class="pie">Figura 4. Consulta silver_juegos en el editor de Power Query, con la lista de pasos aplicados a la derecha</p></div>
 
 **[Figura 5. Vista de diagrama con las dos consultas]**
 
