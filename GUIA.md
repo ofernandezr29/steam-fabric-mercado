@@ -548,12 +548,6 @@ los mismos colores en todo el informe.
 
 <div class="fig"><img src="docs/img/fig21_calidad.png" alt=""><p class="pie">Figura 16. Página "Calidad de datos"</p></div>
 
-### 4.8 Compartir el área de trabajo
-
-En el área de trabajo, *Administrar acceso* > *Agregar personas o grupos*, escribir el correo de la
-profesora y darle el rol de *Lector* (o *Colaborador* si tiene que poder ejecutar el pipeline).
-
-
 ---
 
 ## 5. Justificación del uso de Microsoft Fabric
