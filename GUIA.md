@@ -312,7 +312,7 @@ crear primero el pipeline del apartado 4.5 solo con las dos copias y ejecutarlo.
 
 <div class="fig"><img src="docs/img/fig04_pasos_dataflow.png" alt=""><p class="pie">Figura 4. Consulta silver_juegos en el editor de Power Query, con la lista de pasos aplicados a la derecha</p></div>
 
-**[Figura 5. Vista de diagrama con las dos consultas]**
+<div class="fig"><img src="docs/img/fig05_diagrama_dataflow.png" alt=""><p class="pie">Figura 5. Vista de diagrama del Dataflow: silver_juegos depende de estrategia_generos por el cruce</p></div>
 
 Las transformaciones, en el orden en que aparecen en el código:
 
