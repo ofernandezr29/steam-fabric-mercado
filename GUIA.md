@@ -546,16 +546,18 @@ corregido en los datos.
 En todos los gráficos pusimos un título que dice qué pregunta responde, las unidades en los ejes y
 los mismos colores en todo el informe.
 
-**[Figuras 19 a 21. Páginas del informe]**
+<div class="fig"><img src="docs/img/fig19_mercado.png" alt=""><p class="pie">Figura 19. Página "Mercado Steam" filtrada por el género Strategy y prioridad alta, para mostrar cómo responden los gráficos a las segmentaciones</p></div>
 
-**[Figura 22. Informe filtrado por el género Strategy]**
+<div class="fig"><img src="docs/img/fig20_oportunidad.png" alt=""><p class="pie">Figura 20. Página "Oportunidad por género"</p></div>
+
+<div class="fig"><img src="docs/img/fig21_calidad.png" alt=""><p class="pie">Figura 21. Página "Calidad de datos"</p></div>
 
 ### 4.8 Compartir el área de trabajo
 
 En el área de trabajo, *Administrar acceso* > *Agregar personas o grupos*, escribir el correo de la
 profesora y darle el rol de *Lector* (o *Colaborador* si tiene que poder ejecutar el pipeline).
 
-**[Figura 23. Panel de acceso al área de trabajo]**
+**[Figura 22. Panel de acceso al área de trabajo]**
 
 ---
 
