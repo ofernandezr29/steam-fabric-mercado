@@ -374,7 +374,7 @@ El notebook crea tres tablas:
 - `gold_calidad_datos`: cuenta los problemas de calidad que había en el CSV original para que quede
   constancia de lo que se ha corregido.
 
-**[Figura 6. Resultado del resumen por género en el notebook]**
+<div class="fig"><img src="docs/img/fig06_notebook.png" alt=""><p class="pie">Figura 6. Celda del notebook que crea gold_juego_genero (333.077 filas) y número de juegos por género</p></div>
 
 **[Figura 7. Tabla gold_calidad_datos]**
 
