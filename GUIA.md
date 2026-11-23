@@ -270,7 +270,9 @@ el *SQL analytics endpoint* `LH_Steam`.
 4. Revisar en la vista **Diagrama** que `silver_juegos` depende de `estrategia_generos` (cruce).
 
 > 📸 **CAPTURA 3:** Editor avanzado con el código M.
+>
 > 📸 **CAPTURA 4:** lista de **Pasos aplicados** de `silver_juegos`.
+>
 > 📸 **CAPTURA 5:** vista Diagrama con las dos consultas y el cruce.
 
 **Transformaciones y su justificación** (numeradas como en el código):
@@ -302,6 +304,7 @@ el *SQL analytics endpoint* `LH_Steam`.
 6. **Guardar y ejecutar** (o **Publicar**). Esperar a que termine la actualización.
 
 > 📸 **CAPTURA 6:** configuración del destino de datos (método Reemplazar y asignación de columnas).
+>
 > 📸 **CAPTURA 7:** historial de actualización correcto y tablas nuevas en el Lakehouse.
 
 **Resultado esperado** (recuentos tras cada paso):
@@ -327,6 +330,7 @@ el *SQL analytics endpoint* `LH_Steam`.
 4. **Ejecutar todo**.
 
 > 📸 **CAPTURA 8:** salida de la celda del resumen por género.
+>
 > 📸 **CAPTURA 9:** tabla `gold_calidad_datos`.
 
 **Resultado esperado:** tablas `gold_juego_genero`, `gold_resumen_genero` (12 géneros con ≥ 500
@@ -366,8 +370,11 @@ juegos) y `gold_calidad_datos` con estos valores:
 9. **Programar:** Inicio → **Programación** → diaria a las 06:00 → Aplicar.
 
 > 📸 **CAPTURA 10:** lienzo del pipeline con las actividades conectadas.
+>
 > 📸 **CAPTURA 11:** configuración del origen HTTP de la copia.
+>
 > 📸 **CAPTURA 12:** ejecución correcta (todas las actividades en verde) en la pestaña *Salida*.
+>
 > 📸 **CAPTURA 13:** programación configurada.
 
 **Resultado esperado:** ejecución completa en unos minutos; las tablas del Lakehouse se recrean con
@@ -476,6 +483,7 @@ decimal, moneda en $, ejes con unidades, paleta coherente y las segmentaciones a
 franja lateral.
 
 > 📸 **CAPTURA 18:** vista de modelo con relaciones.
+>
 > 📸 **CAPTURA 19–21:** cada página del informe; **CAPTURA 22:** el informe filtrado por
 > "Strategy" para mostrar la interactividad.
 
