@@ -1,29 +1,6 @@
-"""
-01_preparar_dataset.py
-----------------------
-Genera los ficheros de datos del proyecto a partir del dataset público
-"Steam Games Dataset" (Kaggle, games.csv).
+"""Genera los CSV del proyecto a partir de games.csv (Kaggle).
 
-Qué hace:
-  1. Lee games.csv corrigiendo un defecto real del fichero original: la cabecera
-     une dos columnas ("DiscountDLC count") y por eso tiene 39 nombres para
-     40 campos por fila.
-  2. Se queda con las columnas útiles para el caso de uso (quita descripciones,
-     URLs de imágenes, vídeos, etc.) para que el CSV pese ~20 MB y quepa en GitHub.
-  3. Inyecta, de forma controlada y reproducible (semilla fija), problemas de
-     calidad de datos que luego se corrigen en el Dataflow Gen2:
-        - registros duplicados
-        - valores nulos (Name, Price)
-        - valores fuera de rango (precio negativo o absurdo, fechas futuras)
-        - inconsistencias de formato (fechas ISO mezcladas con "Mon d, yyyy",
-          booleanos escritos como True/TRUE/true/1/yes...)
-     Todo lo inyectado queda registrado en data/registro_problemas_inyectados.csv
-  4. Genera el dataset sintético data/estrategia_generos.csv (datos internos
-     de la empresa: coste de desarrollo y capacidad del equipo por género).
-
-Uso:
-    python -I scripts/01_preparar_dataset.py <ruta a games.csv> <carpeta de salida>
-    python -I scripts/01_preparar_dataset.py _raw/games.csv data
+Uso: python 01_preparar_dataset.py games.csv data
 """
 import sys
 import os
@@ -45,7 +22,8 @@ COLUMNAS = [
 def leer_games(ruta):
     with open(ruta, encoding="utf-8") as f:
         cabecera = f.readline().strip().split(",")
-    i = cabecera.index("DiscountDLC count")  # defecto del fichero original
+    # La cabecera original junta "Discount" y "DLC count" en una sola columna
+    i = cabecera.index("DiscountDLC count")
     cabecera[i:i + 1] = ["Discount", "DLC count"]
     return pd.read_csv(ruta, names=cabecera, skiprows=1, low_memory=False,
                        dtype={"Price": "object", "Windows": "object",
@@ -62,7 +40,6 @@ def inyectar_problemas(df):
                              "columna": columna, "valor_original": a,
                              "valor_inyectado": d})
 
-    # Nulos en Name (0,2 %) y en Price (1 %)
     idx = rng.choice(n, int(n * 0.002), replace=False)
     marca(idx, "nulo", "Name", df.loc[idx, "Name"], [None] * len(idx))
     df.loc[idx, "Name"] = None
@@ -71,7 +48,6 @@ def inyectar_problemas(df):
     marca(idx, "nulo", "Price", df.loc[idx, "Price"], [None] * len(idx))
     df.loc[idx, "Price"] = None
 
-    # Precios fuera de rango (0,3 %): negativos o > 1000 $
     idx = rng.choice(n, int(n * 0.003), replace=False)
     malos = np.where(rng.random(len(idx)) < 0.5,
                      -rng.integers(1, 60, len(idx)).astype(float),
@@ -79,13 +55,11 @@ def inyectar_problemas(df):
     marca(idx, "fuera_de_rango", "Price", df.loc[idx, "Price"], malos)
     df.loc[idx, "Price"] = malos.astype(str)
 
-    # Fechas futuras imposibles (0,1 %)
     idx = rng.choice(n, int(n * 0.001), replace=False)
     futuras = [f"Jan {rng.integers(1, 28)}, {rng.integers(2031, 2099)}" for _ in idx]
     marca(idx, "fuera_de_rango", "Release date", df.loc[idx, "Release date"], futuras)
     df.loc[idx, "Release date"] = futuras
 
-    # Fechas en formato ISO (3 %) -> inconsistencia de formato
     idx = rng.choice(n, int(n * 0.03), replace=False)
     iso = []
     for v in df.loc[idx, "Release date"]:
@@ -94,7 +68,6 @@ def inyectar_problemas(df):
     marca(idx, "inconsistencia", "Release date", df.loc[idx, "Release date"], iso)
     df.loc[idx, "Release date"] = iso
 
-    # Booleanos escritos de formas distintas (5 % en Mac y Linux)
     variantes_v = ["TRUE", "true", "1", "yes", "Y"]
     variantes_f = ["FALSE", "false", "0", "no", "N"]
     for col in ["Mac", "Linux"]:
@@ -104,13 +77,11 @@ def inyectar_problemas(df):
         marca(idx, "inconsistencia", col, df.loc[idx, col], nuevos)
         df.loc[idx, col] = nuevos
 
-    # Espacios sobrantes en Developers/Publishers (2 %)
     for col in ["Developers", "Publishers"]:
         idx = rng.choice(n, int(n * 0.02), replace=False)
         nuevos = ["  " + str(v) + " " if pd.notna(v) else v for v in df.loc[idx, col]]
         df.loc[idx, col] = nuevos
 
-    # Duplicados exactos (1,5 %) añadidos al final y barajados
     idx = rng.choice(n, int(n * 0.015), replace=False)
     dup = df.loc[idx].copy()
     for a in dup["AppID"]:
@@ -123,9 +94,7 @@ def inyectar_problemas(df):
 
 
 def estrategia_generos():
-    """Dataset sintético: información interna de la editora por género."""
     filas = [
-        # genero, coste medio desarrollo (EUR), meses, experiencia equipo (1-5), prioridad
         ("Action", 420000, 18, 4, "Media"),
         ("Adventure", 260000, 14, 5, "Alta"),
         ("Casual", 90000, 6, 4, "Media"),
@@ -142,7 +111,6 @@ def estrategia_generos():
     df = pd.DataFrame(filas, columns=["genero", "coste_desarrollo_eur",
                                       "meses_desarrollo", "experiencia_equipo",
                                       "prioridad_estrategica"])
-    # Pequeño problema de calidad también aquí: un género con mayúsculas/espacios
     df.loc[df["genero"] == "Casual", "genero"] = " casual "
     return df
 

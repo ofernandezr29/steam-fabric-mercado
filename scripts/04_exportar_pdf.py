@@ -1,12 +1,8 @@
-"""
-04_exportar_pdf.py
-------------------
-Convierte ficheros Markdown del proyecto a PDF (Markdown -> HTML con estilos ->
-PDF con Microsoft Edge en modo headless). Los diagramas ```mermaid se dibujan.
+"""Convierte un Markdown en PDF usando Edge.
 
-Uso:
-    python -I scripts/04_exportar_pdf.py <entrada.md> <salida.pdf> ["Título"]
+Uso: python 04_exportar_pdf.py entrada.md salida.pdf "Título"
 """
+import base64
 import html
 import os
 import re
@@ -40,6 +36,9 @@ blockquote { border-left: 4px solid #2e75b6; background: #eef5fc; margin: 10px 0
              padding: 6px 12px; }
 .mermaid { text-align: center; margin: 14px 0; page-break-inside: avoid; }
 a { color: #2e75b6; text-decoration: none; }
+img { max-width: 100%; border: 1px solid #c9d6e3; display: block; margin: 10px auto 2px; }
+.fig { page-break-inside: avoid; }
+.pie { text-align: center; font-size: 9pt; color: #555; margin-bottom: 14px; }
 hr { border: none; border-top: 1px solid #c9d6e3; margin: 20px 0; }
 """
 
@@ -48,8 +47,6 @@ ES_LISTA = re.compile(r"^\s*(?:[-*]|\d+\.)\s")
 
 
 def normalizar_listas(texto):
-    """Python-Markdown exige línea en blanco antes de una lista y 4 espacios
-    de sangría en sublistas; GitHub no. Se adapta el texto fuera de bloques de código."""
     salida, en_codigo, anterior = [], False, ""
     for linea in texto.splitlines():
         if linea.lstrip().startswith("```"):
@@ -65,9 +62,17 @@ def normalizar_listas(texto):
     return "\n".join(salida)
 
 
-def md_a_html(texto, titulo):
+def incrustar_imagen(m, carpeta):
+    ruta = os.path.join(carpeta, m.group(1))
+    with open(ruta, "rb") as f:
+        datos = base64.b64encode(f.read()).decode()
+    return f'src="data:image/png;base64,{datos}"'
+
+
+def md_a_html(texto, titulo, carpeta="."):
     texto = normalizar_listas(texto)
     cuerpo = markdown.markdown(texto, extensions=["tables", "fenced_code", "sane_lists"])
+    cuerpo = re.sub(r'src="([^"]+\.png)"', lambda m: incrustar_imagen(m, carpeta), cuerpo)
     cuerpo = re.sub(
         r'<pre><code class="language-mermaid">(.*?)</code></pre>',
         lambda m: f'<div class="mermaid">{html.unescape(m.group(1))}</div>',
@@ -84,7 +89,7 @@ def main():
     entrada, salida = sys.argv[1], sys.argv[2]
     titulo = sys.argv[3] if len(sys.argv) > 3 else os.path.basename(entrada)
     with open(entrada, encoding="utf-8") as f:
-        documento = md_a_html(f.read(), titulo)
+        documento = md_a_html(f.read(), titulo, os.path.dirname(os.path.abspath(entrada)))
     with tempfile.TemporaryDirectory() as tmp:
         ruta_html = os.path.join(tmp, "doc.html")
         with open(ruta_html, "w", encoding="utf-8") as f:

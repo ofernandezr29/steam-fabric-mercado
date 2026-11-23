@@ -1,14 +1,7 @@
-"""
-02_validar_local.py
--------------------
-Réplica en pandas de la lógica del Dataflow Gen2 (capa silver) y del notebook
-(capa gold). Sirve para:
-  - comprobar que las reglas de limpieza funcionan antes de montarlas en Fabric
-  - conocer los "resultados esperados" de cada etapa (número de filas, KPIs...)
-    y poder contrastarlos con lo que muestre Fabric.
+"""Replica en pandas la limpieza del Dataflow y los cálculos del notebook
+para saber qué resultados deben salir en Fabric.
 
-Uso:
-    python -I scripts/02_validar_local.py data
+Uso: python 02_validar_local.py data
 """
 import sys
 import os

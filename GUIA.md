@@ -314,7 +314,7 @@ crear primero el pipeline del apartado 4.5 solo con las dos copias y ejecutarlo.
 
 **[Figura 5. Vista de diagrama con las dos consultas]**
 
-Las transformaciones están numeradas igual que en los comentarios del código:
+Las transformaciones, en el orden en que aparecen en el código:
 
 | Paso | Qué hace | Por qué |
 |---|---|---|
@@ -420,7 +420,7 @@ Resultado esperado: `gold_resumen_genero` con 12 géneros (solo los que tienen a
 8. *Validar*, *Guardar* y *Ejecutar*.
 9. Programarlo en *Inicio* > *Programación*: ejecución diaria a las 6:00.
 
-**[Figura 10. Pipeline con las actividades conectadas]**
+<div class="fig"><img src="docs/img/fig10_pipeline.png" alt="Pipeline"><p class="pie">Figura 10. Pipeline PL_Steam_Mercado con las cinco actividades conectadas</p></div>
 
 **[Figura 11. Configuración del origen HTTP de la actividad de copia]**
 

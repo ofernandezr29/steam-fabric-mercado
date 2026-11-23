@@ -1,30 +1,16 @@
-"""
-03_generar_notebook.py
-----------------------
-Genera fabric/notebooks/NB_Steam_Gold.ipynb (notebook PySpark para Fabric)
-a partir de las celdas definidas aquí, para mantenerlo legible en git.
+"""Genera NB_Steam_Gold.ipynb.
 
-Uso:
-    python -I scripts/03_generar_notebook.py fabric/notebooks/NB_Steam_Gold.ipynb
+Uso: python 03_generar_notebook.py fabric/notebooks/NB_Steam_Gold.ipynb
 """
 import json
 import sys
 
 CELDAS = [
-    ("md", """# NB_Steam_Gold — capa gold y control de calidad
+    ("md", """# NB_Steam_Gold
 
-Notebook ejecutado por el pipeline **PL_Steam_Mercado** después del Dataflow Gen2.
+Crea las tablas gold a partir de `silver_juegos`. Necesita LH_Steam como lakehouse predeterminado."""),
 
-* **Entrada:** tabla `silver_juegos` (creada por el Dataflow) y `Files/bronze/steam_games.csv`.
-* **Salida (tablas Delta en LH_Steam):**
-  * `gold_juego_genero` — una fila por juego y género (un juego tiene varios géneros).
-  * `gold_resumen_genero` — KPIs por género + índice de oportunidad + datos internos.
-  * `gold_calidad_datos` — recuento de problemas de calidad detectados y corregidos.
-
-> Requisito: añadir el Lakehouse **LH_Steam** como *lakehouse predeterminado* del notebook."""),
-
-    ("code", """# Parámetros (el pipeline puede sobrescribirlos: marcar esta celda como "parameter cell")
-anio_ini_recientes = 2023
+    ("code", """anio_ini_recientes = 2023
 anio_fin_recientes = 2025
 min_juegos_genero = 500"""),
 
@@ -38,9 +24,7 @@ GENEROS_NO_JUEGO = ["Utilities", "Design & Illustration", "Animation & Modeling"
 silver = spark.read.table("silver_juegos")
 print(f"Filas en silver_juegos: {silver.count():,}")"""),
 
-    ("md", """## 1. Tabla puente juego–género
-La columna `generos` contiene listas como `"Action,Adventure,Indie"`. Para analizar por género
-sin duplicar juegos en el modelo de Power BI, se separa en una tabla puente."""),
+    ("md", """## Tabla juego-género"""),
 
     ("code", """juego_genero = (silver
     .select("app_id", F.explode(F.split("generos", ",")).alias("genero"))
@@ -52,11 +36,9 @@ juego_genero.write.mode("overwrite").option("overwriteSchema", "true").saveAsTab
 print(f"gold_juego_genero: {juego_genero.count():,} filas")
 display(juego_genero.groupBy("genero").count().orderBy(F.desc("count")))"""),
 
-    ("md", """## 2. Resumen por género e índice de oportunidad
+    ("md", """## Resumen por género
 
-* **tasa_exito** = % de juegos del género con ≥ 100.000 propietarios estimados.
-* **cuota_lanzamientos_recientes** = % de los lanzamientos de los años recientes que pertenecen al género (saturación).
-* **indice_oportunidad** = tasa_exito / cuota_lanzamientos_recientes → alto = mucho éxito con poca competencia."""),
+indice_oportunidad = tasa_exito / cuota_lanzamientos_recientes"""),
 
     ("code", """jg = juego_genero.join(silver.select("app_id", "anio_lanzamiento", "exito_comercial",
                                      "pct_positivas", "precio_usd", "propietarios_medio"), "app_id")
@@ -81,9 +63,7 @@ resumen = resumen.join(estrategia, "genero", "left")
 resumen.write.mode("overwrite").option("overwriteSchema", "true").saveAsTable("gold_resumen_genero")
 display(resumen.orderBy(F.desc("indice_oportunidad")))"""),
 
-    ("md", """## 3. Control de calidad: bronze vs. silver
-Se cuentan en el CSV original (bronze) los problemas que el Dataflow ha tratado, para dejar
-constancia en una tabla que también se muestra en el cuadro de mando."""),
+    ("md", """## Control de calidad (CSV original frente a silver)"""),
 
     ("code", """bronze = (spark.read.option("header", True).option("multiLine", True)
           .option("escape", '"').csv("Files/bronze/steam_games.csv"))

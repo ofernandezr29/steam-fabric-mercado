@@ -1,12 +1,4 @@
--- =====================================================================
---  Preguntas de negocio  ·  Punto de conexión de análisis SQL de LH_Steam
---  (Lakehouse > desplegable "Lakehouse" arriba a la derecha > "SQL analytics endpoint"
---   > Nueva consulta SQL). Las tablas Delta son de solo lectura desde aquí (T-SQL).
--- =====================================================================
-
-
--- P1. ¿Qué géneros combinan mayor tasa de éxito con menor saturación del mercado,
---     y cuáles son viables para el equipo?
+-- P1. Géneros: éxito frente a saturación
 SELECT  genero,
         num_juegos,
         CAST(tasa_exito * 100 AS DECIMAL(5,1))                    AS tasa_exito_pct,
@@ -19,7 +11,7 @@ FROM    gold_resumen_genero
 ORDER BY indice_oportunidad DESC;
 
 
--- P2. ¿Qué rango de precio se asocia a más éxito comercial y mejores reseñas?
+-- P2. Rango de precio
 SELECT  rango_precio,
         COUNT(*)                                                         AS juegos,
         CAST(AVG(CAST(exito_comercial AS FLOAT)) * 100 AS DECIMAL(5,1))  AS tasa_exito_pct,
@@ -31,7 +23,7 @@ GROUP BY rango_precio
 ORDER BY rango_precio;
 
 
--- P3. ¿Compensa publicar también en Mac y/o Linux?
+-- P3. Plataformas
 SELECT  num_plataformas,
         CASE num_plataformas WHEN 1 THEN 'Solo una (normalmente Windows)'
                              WHEN 2 THEN 'Dos plataformas'
@@ -44,15 +36,14 @@ GROUP BY num_plataformas
 ORDER BY num_plataformas;
 
 
--- P4. ¿Cómo evoluciona la saturación (lanzamientos por año) y qué meses son mejores?
---  4a. Lanzamientos por año
+-- P4a. Lanzamientos por año
 SELECT  anio_lanzamiento, COUNT(*) AS lanzamientos
 FROM    silver_juegos
 WHERE   anio_lanzamiento BETWEEN 2010 AND 2025
 GROUP BY anio_lanzamiento
 ORDER BY anio_lanzamiento;
 
---  4b. Tasa de éxito por mes de lanzamiento (2015-2024: juegos con al menos un año en tienda)
+-- P4b. Éxito por mes (hasta 2024, los juegos más nuevos aún no han llegado a 100.000 propietarios)
 SELECT  mes_lanzamiento,
         COUNT(*)                                                         AS lanzamientos,
         CAST(AVG(CAST(exito_comercial AS FLOAT)) * 100 AS DECIMAL(5,1))  AS tasa_exito_pct
@@ -62,7 +53,7 @@ GROUP BY mes_lanzamiento
 ORDER BY mes_lanzamiento;
 
 
--- Extra. Top 10 competidores (editores) en el género con mejor prioridad estratégica
+-- Principales editores en Strategy
 SELECT TOP 10 s.editores,
         COUNT(*)                         AS juegos,
         SUM(s.propietarios_medio)        AS propietarios_estimados
@@ -73,5 +64,4 @@ GROUP BY s.editores
 ORDER BY propietarios_estimados DESC;
 
 
--- Control de calidad (resultado del notebook)
 SELECT * FROM gold_calidad_datos;
