@@ -515,7 +515,7 @@ probablemente porque coinciden con los lanzamientos grandes de final de año.
    formato (porcentaje con un decimal, dólares con dos decimales, etc.).
 4. Creamos un informe nuevo a partir del modelo.
 
-**[Figura 13. Vista del modelo con las relaciones]**
+<div class="fig"><img src="docs/img/fig13_modelo.png" alt=""><p class="pie">Figura 13. Vista del modelo semántico SM_Steam_Mercado con las relaciones entre tablas</p></div>
 
 El informe tiene tres páginas.
 
