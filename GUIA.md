@@ -308,7 +308,7 @@ crear primero el pipeline del apartado 4.5 solo con las dos copias y ejecutarlo.
 4. En la vista de diagrama se ve que `silver_juegos` depende de `estrategia_generos`, porque hace un
    cruce con ella.
 
-**[Figura 3. Editor avanzado con el código M]**
+<div class="fig"><img src="docs/img/fig03_editor_avanzado.png" alt=""><p class="pie">Figura 3. Editor avanzado con el código M de la consulta estrategia_generos</p></div>
 
 <div class="fig"><img src="docs/img/fig04_pasos_dataflow.png" alt=""><p class="pie">Figura 4. Consulta silver_juegos en el editor de Power Query, con la lista de pasos aplicados a la derecha</p></div>
 
