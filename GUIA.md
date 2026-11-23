@@ -418,8 +418,6 @@ Resultado esperado: `gold_resumen_genero` con 12 géneros (solo los que tienen a
 
 <div class="fig"><img src="docs/img/fig10_pipeline.png" alt="Pipeline"><p class="pie">Figura 8. Pipeline PL_Steam_Mercado con las cinco actividades conectadas</p></div>
 
-**[Figura 9. Programación del pipeline]**
-
 Resultado esperado: todas las actividades terminan correctamente en unos minutos y las tablas del
 Lakehouse se vuelven a crear con los mismos recuentos de los apartados 4.3 y 4.4.
 
@@ -431,7 +429,7 @@ análisis SQL*. Ahí se abre una *Nueva consulta SQL* y se ejecutan las consulta
 
 #### P1. Géneros
 
-<div class="fig"><img src="docs/img/fig_sql_p1.png" alt=""><p class="pie">Figura 10. Consulta P1 en el punto de conexión SQL</p></div>
+<div class="fig"><img src="docs/img/fig_sql_p1.png" alt=""><p class="pie">Figura 9. Consulta P1 en el punto de conexión SQL</p></div>
 
 | Género | Juegos | Tasa de éxito | Cuota lanzamientos 2023-25 | Índice | Experiencia equipo | Prioridad |
 |---|---|---|---|---|---|---|
@@ -458,7 +456,7 @@ bastante saturada.
 
 #### P2. Precio
 
-<div class="fig"><img src="docs/img/fig_sql_p2.png" alt=""><p class="pie">Figura 11. Consulta P2</p></div>
+<div class="fig"><img src="docs/img/fig_sql_p2.png" alt=""><p class="pie">Figura 10. Consulta P2</p></div>
 
 | Rango de precio | Juegos | Tasa de éxito | % reseñas positivas |
 |---|---|---|---|
@@ -476,7 +474,7 @@ el que plantea el estudio, un precio de entre 15 y 25 dólares parece lo más ra
 
 #### P3. Plataformas
 
-<div class="fig"><img src="docs/img/fig_sql_p3.png" alt=""><p class="pie">Figura 12. Consulta P3</p></div>
+<div class="fig"><img src="docs/img/fig_sql_p3.png" alt=""><p class="pie">Figura 11. Consulta P3</p></div>
 
 | Plataformas | Juegos | Tasa de éxito | % reseñas positivas |
 |---|---|---|---|
@@ -491,7 +489,7 @@ a favor de incluir el port en el presupuesto.
 
 #### P4. Saturación y mes de lanzamiento
 
-<div class="fig"><img src="docs/img/fig_sql_p4.png" alt=""><p class="pie">Figura 13. Consulta P4, lanzamientos por año y tasa de éxito por mes</p></div>
+<div class="fig"><img src="docs/img/fig_sql_p4.png" alt=""><p class="pie">Figura 12. Consulta P4, lanzamientos por año y tasa de éxito por mes</p></div>
 
 El número de lanzamientos no ha parado de crecer: 7.060 en 2019, 10.910 en 2021, 14.423 en 2023,
 19.825 en 2024 y 24.699 en 2025.
@@ -517,7 +515,7 @@ probablemente porque coinciden con los lanzamientos grandes de final de año.
    formato (porcentaje con un decimal, dólares con dos decimales, etc.).
 4. Creamos un informe nuevo a partir del modelo.
 
-**[Figura 14. Vista del modelo con las relaciones]**
+**[Figura 13. Vista del modelo con las relaciones]**
 
 El informe tiene tres páginas.
 
@@ -544,18 +542,17 @@ corregido en los datos.
 En todos los gráficos pusimos un título que dice qué pregunta responde, las unidades en los ejes y
 los mismos colores en todo el informe.
 
-<div class="fig"><img src="docs/img/fig19_mercado.png" alt=""><p class="pie">Figura 15. Página "Mercado Steam" filtrada por el género Strategy y prioridad alta, para mostrar cómo responden los gráficos a las segmentaciones</p></div>
+<div class="fig"><img src="docs/img/fig19_mercado.png" alt=""><p class="pie">Figura 14. Página "Mercado Steam" filtrada por el género Strategy y prioridad alta, para mostrar cómo responden los gráficos a las segmentaciones</p></div>
 
-<div class="fig"><img src="docs/img/fig20_oportunidad.png" alt=""><p class="pie">Figura 16. Página "Oportunidad por género"</p></div>
+<div class="fig"><img src="docs/img/fig20_oportunidad.png" alt=""><p class="pie">Figura 15. Página "Oportunidad por género"</p></div>
 
-<div class="fig"><img src="docs/img/fig21_calidad.png" alt=""><p class="pie">Figura 17. Página "Calidad de datos"</p></div>
+<div class="fig"><img src="docs/img/fig21_calidad.png" alt=""><p class="pie">Figura 16. Página "Calidad de datos"</p></div>
 
 ### 4.8 Compartir el área de trabajo
 
 En el área de trabajo, *Administrar acceso* > *Agregar personas o grupos*, escribir el correo de la
 profesora y darle el rol de *Lector* (o *Colaborador* si tiene que poder ejecutar el pipeline).
 
-**[Figura 18. Panel de acceso al área de trabajo]**
 
 ---
 
