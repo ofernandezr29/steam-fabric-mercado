@@ -271,22 +271,22 @@ ahí, y nos sirvieron para comprobar que cada paso en Fabric estaba bien hecho.
    capacidad de Fabric de la universidad).
 4. Pulsar *Aplicar*.
 
-**[Figura 1. Creación del área de trabajo y modo de licencia]**
+Resultado esperado: un área de trabajo con el icono de capacidad Fabric. En la figura 1 se ve ya con todos los elementos que se crean en los pasos siguientes.
 
-Resultado esperado: un área de trabajo vacía con el icono de capacidad Fabric.
+<div class="fig"><img src="docs/img/fig01_area_trabajo.png" alt=""><p class="pie">Figura 1. Área de trabajo WS_Steam_Mercado con los elementos del proyecto</p></div>
 
 ### 4.2 Crear el Lakehouse
 
 1. Dentro del área de trabajo, *Nuevo elemento* > *Lakehouse*.
-2. Nombre: `LH_Steam`. Dejamos sin marcar la opción *Lakehouse schemas* para que las tablas se
-   llamen directamente `silver_juegos`, etc. Pulsar *Crear*.
+2. Nombre: `LH_Steam`. Dejamos marcada la opción *Lakehouse schemas*, así que las tablas se guardan
+   dentro del esquema `dbo`. Pulsar *Crear*.
 3. En el explorador de la izquierda, en los tres puntos de *Files*, elegir *Nueva subcarpeta* y
    crear la carpeta `bronze`.
 
-**[Figura 2. Lakehouse con las secciones Tables y Files/bronze]**
+<div class="fig"><img src="docs/img/fig02_lakehouse.png" alt=""><p class="pie">Figura 2. Lakehouse LH_Steam con las tablas en Tables/dbo y la carpeta Files/bronze. A la derecha, vista previa de la tabla de estrategia por género</p></div>
 
-Resultado esperado: el Lakehouse vacío con la carpeta `Files/bronze`. Fabric crea también el
-endpoint SQL con el mismo nombre.
+Resultado esperado: el Lakehouse con la carpeta `Files/bronze`. Fabric crea también el endpoint
+SQL con el mismo nombre. Las tablas de la figura aparecen después de ejecutar el Dataflow y el notebook.
 
 ### 4.3 Dataflow Gen2 (DF_Steam_Limpieza)
 
