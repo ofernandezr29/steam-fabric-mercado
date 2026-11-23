@@ -342,10 +342,6 @@ Las transformaciones, en el orden en que aparecen en el código:
    `estrategia_generos`, que se guarda como `dim_estrategia_generos`.
 6. Guardar y ejecutar el Dataflow y esperar a que termine.
 
-**[Figura 6. Configuración del destino de datos]**
-
-**[Figura 7. Actualización correcta y tablas creadas en el Lakehouse]**
-
 Resultado esperado, con las filas que quedan después de cada etapa:
 
 | Etapa | Filas |
@@ -378,9 +374,9 @@ El notebook crea tres tablas:
 - `gold_calidad_datos`: cuenta los problemas de calidad que había en el CSV original para que quede
   constancia de lo que se ha corregido.
 
-**[Figura 8. Resultado del resumen por género en el notebook]**
+**[Figura 6. Resultado del resumen por género en el notebook]**
 
-**[Figura 9. Tabla gold_calidad_datos]**
+**[Figura 7. Tabla gold_calidad_datos]**
 
 Resultado esperado: `gold_resumen_genero` con 12 géneros (solo los que tienen al menos 500 juegos) y
 `gold_calidad_datos` con estos valores:
@@ -420,13 +416,13 @@ Resultado esperado: `gold_resumen_genero` con 12 géneros (solo los que tienen a
 8. *Validar*, *Guardar* y *Ejecutar*.
 9. Programarlo en *Inicio* > *Programación*: ejecución diaria a las 6:00.
 
-<div class="fig"><img src="docs/img/fig10_pipeline.png" alt="Pipeline"><p class="pie">Figura 10. Pipeline PL_Steam_Mercado con las cinco actividades conectadas</p></div>
+<div class="fig"><img src="docs/img/fig10_pipeline.png" alt="Pipeline"><p class="pie">Figura 8. Pipeline PL_Steam_Mercado con las cinco actividades conectadas</p></div>
 
-**[Figura 11. Configuración del origen HTTP de la actividad de copia]**
+**[Figura 9. Configuración del origen HTTP de la actividad de copia]**
 
-**[Figura 12. Ejecución correcta en la pestaña Salida]**
+**[Figura 10. Ejecución correcta en la pestaña Salida]**
 
-**[Figura 13. Programación del pipeline]**
+**[Figura 11. Programación del pipeline]**
 
 Resultado esperado: todas las actividades terminan correctamente en unos minutos y las tablas del
 Lakehouse se vuelven a crear con los mismos recuentos de los apartados 4.3 y 4.4.
@@ -437,7 +433,7 @@ Desde el Lakehouse, en el desplegable de arriba a la derecha se cambia a *Punto 
 análisis SQL*. Ahí se abre una *Nueva consulta SQL* y se ejecutan las consultas del fichero
 `fabric/sql/preguntas_negocio.sql`.
 
-**[Figuras 14 a 17. Resultado de las consultas P1 a P4]**
+**[Figuras 12 a 15. Resultado de las consultas P1 a P4]**
 
 #### P1. Géneros
 
@@ -519,7 +515,7 @@ probablemente porque coinciden con los lanzamientos grandes de final de año.
    formato (porcentaje con un decimal, dólares con dos decimales, etc.).
 4. Creamos un informe nuevo a partir del modelo.
 
-**[Figura 18. Vista del modelo con las relaciones]**
+**[Figura 16. Vista del modelo con las relaciones]**
 
 El informe tiene tres páginas.
 
@@ -546,18 +542,18 @@ corregido en los datos.
 En todos los gráficos pusimos un título que dice qué pregunta responde, las unidades en los ejes y
 los mismos colores en todo el informe.
 
-<div class="fig"><img src="docs/img/fig19_mercado.png" alt=""><p class="pie">Figura 19. Página "Mercado Steam" filtrada por el género Strategy y prioridad alta, para mostrar cómo responden los gráficos a las segmentaciones</p></div>
+<div class="fig"><img src="docs/img/fig19_mercado.png" alt=""><p class="pie">Figura 17. Página "Mercado Steam" filtrada por el género Strategy y prioridad alta, para mostrar cómo responden los gráficos a las segmentaciones</p></div>
 
-<div class="fig"><img src="docs/img/fig20_oportunidad.png" alt=""><p class="pie">Figura 20. Página "Oportunidad por género"</p></div>
+<div class="fig"><img src="docs/img/fig20_oportunidad.png" alt=""><p class="pie">Figura 18. Página "Oportunidad por género"</p></div>
 
-<div class="fig"><img src="docs/img/fig21_calidad.png" alt=""><p class="pie">Figura 21. Página "Calidad de datos"</p></div>
+<div class="fig"><img src="docs/img/fig21_calidad.png" alt=""><p class="pie">Figura 19. Página "Calidad de datos"</p></div>
 
 ### 4.8 Compartir el área de trabajo
 
 En el área de trabajo, *Administrar acceso* > *Agregar personas o grupos*, escribir el correo de la
 profesora y darle el rol de *Lector* (o *Colaborador* si tiene que poder ejecutar el pipeline).
 
-**[Figura 22. Panel de acceso al área de trabajo]**
+**[Figura 20. Panel de acceso al área de trabajo]**
 
 ---
 
