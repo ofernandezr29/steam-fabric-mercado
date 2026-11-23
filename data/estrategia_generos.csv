@@ -1,0 +1,13 @@
+genero,coste_desarrollo_eur,meses_desarrollo,experiencia_equipo,prioridad_estrategica
+Action,420000,18,4,Media
+Adventure,260000,14,5,Alta
+ casual ,90000,6,4,Media
+Indie,150000,10,5,Media
+RPG,550000,24,3,Alta
+Simulation,300000,16,3,Media
+Strategy,350000,18,4,Alta
+Racing,480000,20,1,Baja
+Sports,450000,18,1,Baja
+Massively Multiplayer,1500000,36,1,Baja
+Free To Play,200000,12,2,Media
+Early Access,120000,8,3,Media
